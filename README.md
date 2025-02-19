@@ -1,3 +1,7 @@
 # Portefólio-AAB
 
-chilling and willing
+chilling and willing...
+
+Repositório criado no âmbito da UC Algoritmos Avançados de Bioinformática.
+
+
