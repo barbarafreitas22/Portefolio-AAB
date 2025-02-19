@@ -1,7 +1,5 @@
 # Algoritmos Avançados de Bioinformática 24/25
 
-chilling and willing...
-
 Repositório criado por:
 - [Bárbara Freitas](https://github.com/barbarafreitas22) PG55693
 - [Filipe Vasconcelos](https://github.com/Celos13) PG55697
