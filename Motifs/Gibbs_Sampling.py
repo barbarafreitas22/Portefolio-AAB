@@ -1,3 +1,7 @@
+def score(s):
+        motifs = [seq[p:p+L] for seq, p in zip(seqs, s)]
+        return sum(max(col.count(b) for b in set(col)) for col in zip(*motifs))
+
 def calculate_probability(seq, motif_len, start, other_motifs):
     motif = seq[start:start + motif_len]
     score = 1.0
