@@ -1,3 +1,5 @@
+import unittest
+
 class TestMotifFindingSimplified(unittest.TestCase):
 
     def test_motif_score_identical(self):
