@@ -1,29 +1,40 @@
+def calculate_probability(seq, motif_len, start, other_motifs):
+    motif = seq[start:start + motif_len]
+    score = 1.0
+    total = len(other_motifs) + 4  # Laplace smoothing
+
+    for i, base in enumerate(motif):
+        counts = {n: 1 for n in "ACGT"}  # Inicializa com 1 para Laplace
+        for m in other_motifs:
+            counts[m[i].upper()] = counts.get(m[i].upper(), 1) + 1
+        score *= counts[base.upper()] / total
+
+    return score
+
 def gibbs_sampling_motif_search(sequences, motif_length, num_iterations=1000):
-    """Finds motifs using a Gibbs Sampling algorithm."""
-    num_sequences = len(sequences)
-    sequence_length = len(sequences[0])
+    # Inicializa as posições dos motivos aleatoriamente
+    motif_positions = [random.randint(0, len(seq) - motif_length) for seq in sequences]
+    best_score = score(motif_positions, sequences, motif_length)
 
-    # Initialize starting positions randomly
-    motif_positions = [random.randint(0, sequence_length - motif_length) for _ in range(num_sequences)]
-    best_motif_positions = list(motif_positions)  # Start with the initial positions
-    best_score = 0
+    for _ in range(num_iterations):
+        for i in range(len(sequences)):
+            # Exclui a sequência atual
+            excluded_sequence = sequences[i]
+            other_motifs = [sequences[j][motif_positions[j]:motif_positions[j] + motif_length] for j in range(len(sequences)) if j != i]
 
-    # Calculate probabilities for the excluded sequence
-    probabilities = [calculate_probability(sequences[excluded_index], motif_length, start_pos, other_motifs)
-        for start_pos in range(sequence_length - motif_length + 1)]
+            # Calcula as probabilidades para a sequência excluída
+            probabilities = [calculate_probability(excluded_sequence, motif_length, pos, other_motifs) for pos in range(len(excluded_sequence) - motif_length + 1)]
 
-    # Normalize probabilities
-    total_probability = sum(probabilities)
-    probabilities = [p / total_probability if total_probability > 0 else 1 / len(probabilities) for p in probabilities]
+            # Normaliza as probabilidades
+            total_prob = sum(probabilities)
+            probabilities = [p / total_prob for p in probabilities]
 
-    # Sample a new starting position for the excluded sequence
-    motif_positions[excluded_index] = random.choices(range(sequence_length - motif_length + 1), weights=probabilities)[0]
+            # Amostra uma nova posição para a sequência excluída
+            motif_positions[i] = random.choices(range(len(probabilities)), weights=probabilities)[0]
 
-    # Calculate new score
-    new_score = calculate_score([sequences[i][motif_positions[i]:motif_positions[i] + motif_length] for i in range(num_sequences)])
+        # Avalia a nova solução
+        current_score = score(motif_positions, sequences, motif_length)
+        if current_score > best_score:
+            best_score = current_score  # Atualiza a melhor pontuação
 
-    if new_score > best_score:
-        best_score = new_score
-        best_motif_positions = list(motif_positions)
-
-    return best_motif_positions, best_score
+    return motif_positions, best_score
