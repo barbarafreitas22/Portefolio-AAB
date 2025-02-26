@@ -8,7 +8,7 @@ def procura_exaustiva_motifs(seqs, L):
         L (int): Length of the motif to find.
 
     Returns:
-        tuple: A tuple containing:
+        A tuple containing:
             - best_s (list): List of start positions for the best motifs in each sequence.
             - best_score (int): The score of the best motif set.
     """
