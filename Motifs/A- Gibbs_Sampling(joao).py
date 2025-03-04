@@ -1,5 +1,19 @@
 import random
-from Branch_and_Bound import score 
+
+def score(posicoes, sequencias, L):
+    """
+    Calcula a pontuação para um conjunto de motifs
+    
+    Parâmetros:
+        posicoes (list): Lista de posições iniciais em cada sequência
+        sequencias (list): Lista de sequências 
+        L (int): Comprimento do motif
+        
+    Return:
+        int: Pontuação total 
+    """
+    motifs = [seq[p:p+L] for seq, p in zip(sequencias, posicoes)]
+    return sum(max(col.count(b) for b in set(col)) for col in zip(*motifs))
 
 def calcula_probabilidade(seq, L, pi, outros_motifs):
     """
