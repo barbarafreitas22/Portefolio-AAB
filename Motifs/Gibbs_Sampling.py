@@ -34,7 +34,7 @@ def calcula_probabilidade(seq, L, pi, outros_motifs):
     total = len(outros_motifs) + 4  # Adiciona 4 para garantir pseudocontagens (evitar zeros nas probabilidades).
 
     for i, base in enumerate(motif):  # Percorre cada posição do motif.
-        counts = {n: 1 for n in "ACGT"}  # Inicializa a contagem das bases com pseudocontagens.
+        counts = {n: 1 for n in "ACGT"}  # Inicia a contagem das bases com pseudocontagens.
         for m in outros_motifs:  # Percorre os outros motifs para calcular as frequências das bases.
             counts[m[i].upper()] = counts.get(m[i].upper(), 1) + 1
         prob *= counts[base.upper()] / total  # Calcula a probabilidade com base nas contagens.
@@ -55,7 +55,7 @@ def gibbs_sampling(sequences, L, num_it=1000):
             - list[int]: Lista das melhores posições de início dos motifs em cada sequência.
             - int: A pontuação final dos motifs encontrados.
     """
-    # Inicializa aleatoriamente as posições dos motifs dentro de cada sequência.
+    # Inicia aleatoriamente as posições dos motifs dentro de cada sequência.
     motif_pos = [random.randint(0, len(seq) - L) for seq in sequences]
     m_score_val = score(motif_pos, sequences, L)  # Calcula o score inicial.
     m_positions = motif_pos.copy()  # Guarda a melhor configuração encontrada.
@@ -81,7 +81,7 @@ def gibbs_sampling(sequences, L, num_it=1000):
             else:
                 probabilidades = [p / total_prob for p in probabilidades]
 
-            # Escolhe aleatoriamente a nova posição para o motif da sequência removida, ponderando pelas probabilidades.
+            # Escolhe aleatoriamente a nova posição para o motif da sequência removida, ponderado pelas probabilidades.
             motif_pos[i] = random.choices(range(len(probabilidades)), weights=probabilidades)[0]
 
         # Calcula o score com as novas posições encontradas.
