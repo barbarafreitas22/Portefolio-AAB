@@ -35,8 +35,8 @@ def consensus_heu(seqs, L):
     if len(seqs) < 2:
         raise ValueError("É necessário ter pelo menos duas sequências.")  # Garante que há pelo menos duas sequências.
 
-    melhor_pos = None  # Inicializa a variável para armazenar as melhores posições.
-    melhor_score = -1  # Inicializa a melhor pontuação com um valor baixo.
+    melhor_pos = None  # Inicia a variável para armazenar as melhores posições.
+    melhor_score = -1  # Inicia a melhor pontuação com um valor baixo.
     
     # Testa todas as combinações possíveis para as duas primeiras sequências.
     for s1 in range(len(seqs[0]) - L + 1):  # Percorre todas as posições possíveis na primeira sequência.
@@ -50,7 +50,7 @@ def consensus_heu(seqs, L):
     # Para cada sequência subsequente, escolhe a melhor posição para maximizar o score.
     for i in range(2, len(seqs)):  # Começa na terceira sequência (índice 2).
         m_posicoes = None  # Armazena a melhor posição para esta sequência.
-        melhor_score_i = -1  # Inicializa o melhor score para esta sequência.
+        melhor_score_i = -1  # Inicia o melhor score para esta sequência.
         
         for pos in range(len(seqs[i]) - L + 1):  # Testa todas as posições possíveis na sequência atual.
             posicoes = melhor_pos + [pos]  # Conjunto de posições incluindo a atual.
