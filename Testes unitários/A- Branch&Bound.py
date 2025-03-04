@@ -1,19 +1,19 @@
 import unittest
 import random
 
-def motif_score(seqs, positions, L):
-    """
-    Calcula o score de uma configuração de motifs
+def motif_score(seqs, posicoes, L):
+     """
+    Calcula o score dos motifs extraídos de seqs através das posições 
 
     Parâmetros:
-        seqs (list[str]): Lista de sequências onde os motivos são extraídos.
-        positions (list[int]): Lista com as posições de início dos motivos em cada sequência.
-        L (int): Comprimento do motivo.
+        seqs (list of str): Lista de sequências de DNA
+        posicoes (list of int): Lista de posições iniciais para extrair os motifs
+        L (int): Tamanho do motif
 
-    Retorna:
-        int: O score, que é a soma, para cada coluna dos motivos, da frequência da base mais comum.
+    Return:
+        int: O score
     """
-    motifs = [seq[p:p+L] for seq, p in zip(seqs, positions)]
+    motifs = [seq[p:p+L] for seq, p in zip(seqs, posicoes)]
     return sum(max(col.count(base) for base in set(col)) for col in zip(*motifs))
 
 def random_dna_seq(n):
