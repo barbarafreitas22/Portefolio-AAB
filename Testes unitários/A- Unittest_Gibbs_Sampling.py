@@ -3,6 +3,13 @@ import random
 
 class TestGibbsSamplingMotifSearch(unittest.TestCase):
     def setUp(self):
+        """
+        Configuração inicial para os testes.
+        
+        Define uma semente aleatória para garantir reprodutibilidade
+        e prepara um conjunto padrão de sequências para teste.
+        
+        """
         random.seed(42)
         self.seqs = [
             "ATGCATGCATGCATGC",
@@ -56,8 +63,19 @@ class TestGibbsSamplingMotifSearch(unittest.TestCase):
         return motif_positions, best_score
 
     def test_basic_motif_search(self):
-        """
-        Teste básico com um conjunto simples de sequências de DNA
+         """
+        Teste básico para verificar a funcionalidade do algoritmo de busca de motifs.
+        
+        Este teste valida se o algoritmo de Gibbs Sampling:
+        - Retorna o número correto de posições de motifs
+        - Garante que todas as posições estão dentro dos limites válidos das sequências
+        - Produz uma pontuação válida
+        
+        O teste usa um conjunto padrão de sequências de DNA e verifica 
+        a integridade básica do algoritmo.
+        
+        Raises:
+            AssertionError: Se alguma das verificações falhar
         """
         L = 4 
 
@@ -69,7 +87,18 @@ class TestGibbsSamplingMotifSearch(unittest.TestCase):
 
     def test_score_function(self):
         """
-        Teste da função de pontuação de motifs
+        Teste da função de pontuação de motifs.
+        
+        Verifica a implementação correta da função de score que calcula
+        a conservação dos motifs encontrados:
+        - Confirma que a pontuação é um número inteiro
+        - Verifica se a pontuação calculada é maior que zero
+        
+        Utiliza um conjunto de posições de teste para validar 
+        o cálculo de pontuação.
+        
+        Raises:
+            AssertionError: Se a pontuação não atender aos critérios esperados
         """
         test_positions = [2, 3, 4]
         L = 4
@@ -81,7 +110,18 @@ class TestGibbsSamplingMotifSearch(unittest.TestCase):
 
     def test_probability_calculation(self):
         """
-        Teste da função de cálculo de probabilidade
+        Teste do cálculo de probabilidade com suavização de Laplace.
+        
+        Valida a função de cálculo de probabilidade que:
+        - Verifica se o resultado é um número num ponto flutuante
+        - Confirma que a probabilidade está no intervalo [0, 1]
+        
+        Usa uma sequência de teste e motifs de referência para 
+        calcular a probabilidade de um motif específico.
+        
+        Raises:
+            AssertionError: Se a probabilidade calculada não atender 
+            aos critérios de tipo e intervalo
         """
         seq = "ATGCATGCATGCATGC"
         motif_len = 4
@@ -95,7 +135,19 @@ class TestGibbsSamplingMotifSearch(unittest.TestCase):
 
     def test_edge_cases(self):
         """
-        Teste de casos de borda
+        Teste de casos extremos para o algoritmo de busca de motifs.
+        
+        Verifica o comportamento do algoritmo em situações extremas:
+        - Testa o tratamento de sequências muito curtas
+        - Espera que uma exceção seja lançada quando o motif 
+          é maior que as sequências
+        
+        O objetivo é garantir que o algoritmo lida corretamente 
+        com entradas inválidas ou limitadas.
+        
+        Raises:
+            ValueError: Esperado quando o comprimento do motif 
+            é maior que o das sequências
         """
         short_seqs = ["AAA", "CCC", "GGG"]
         
@@ -104,8 +156,19 @@ class TestGibbsSamplingMotifSearch(unittest.TestCase):
                 raise ValueError("Motif length cannot be larger than sequence length")
 
     def test_random_seed_reproducibility(self):
-        """
-        Verificar se resultados são reproduzíveis com a mesma semente
+       """
+        Teste de reprodutibilidade da semente aleatória.
+        
+        Verifica se o algoritmo produz resultados consistentes 
+        quando executado com a mesma semente aleatória:
+        - Compara resultados de duas execuções consecutivas
+        - Confirma que as posições e pontuações são idênticas
+        
+        Fundamental para garantir testes determinísticos e 
+        reproduzíveis em ambientes de desenvolvimento e teste.
+        
+        Raises:
+            AssertionError: Se os resultados das execuções não forem idênticos
         """
         L = 4
 
