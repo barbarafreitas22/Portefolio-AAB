@@ -12,7 +12,7 @@ def score_motif(seqs, indices, L):
     """
     # Extrai os motifs das sequências nas posições especificadas
     motifs = [seq[i:i+L] for seq, i in zip(seqs, indices)]
-    total_score = 0  # Inicializa a pontuação total
+    total_score = 0  # Inicia a pontuação total
     # Para cada coluna dos motifs, calcula a pontuação
     for col in zip(*motifs):
         # Adiciona o máximo da contagem de cada base na coluna à pontuação total
@@ -39,7 +39,7 @@ def prox_combinacao(indices, seq_comp, L):
     if pos < 0:  # Se não houver mais combinações possíveis
         return None  # Retorna None
     novos_indices[pos] += 1  # Incrementa o índice na posição atual
-    # Reseta os índices à direita da posição atual para 0
+    # Reinicia os índices à direita da posição atual para 0
     for i in range(pos + 1, len(novos_indices)):
         novos_indices[i] = 0
     return novos_indices  # Retorna a nova combinação de índices
@@ -58,9 +58,9 @@ def procura_exaustiva(seqs, L):
             - int: O score máximo obtido
     """
     seq_lengths = [len(seq) for seq in seqs]  # Obtém os comprimentos de cada sequência
-    indices = [0] * len(seqs)  # Inicializa os índices com 0
-    melhor_score = -1  # Inicializa a melhor pontuação como -1
-    melhores_indices = None  # Inicializa as melhores posições como None
+    indices = [0] * len(seqs)  # Inicia os índices com 0
+    melhor_score = -1  # Inicia a melhor pontuação como -1
+    melhores_indices = None  # Inicia as melhores posições como None
     # Enquanto houver combinações de índices
     while indices is not None:
         s = score_motif(seqs, indices, L)  # Calcula o score para a combinação atual
