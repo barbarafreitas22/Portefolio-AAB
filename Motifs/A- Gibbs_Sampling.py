@@ -11,7 +11,7 @@ def score(pos):
     motifs = [seq[p:p+L] for seq, p in zip(seqs, pos)]
     return sum(max(col.count(b) for b in set(col)) for col in zip(*motifs))
 
-def calculate_probability(seq, motif_len, start, other_motifs):
+def calcular_probabilidade(seq, L, inicio, outros_motifs):
     """
     Calcula a probabilidade de um motif específico usando suavização de Laplace.
     
@@ -21,24 +21,24 @@ def calculate_probability(seq, motif_len, start, other_motifs):
     
     Parâmetros:
         seq (str): Sequência na qual será calculada a probabilidade do motif.
-        motif_len (int): Comprimento do motif.
-        start (int): Posição inicial do motif candidato na sequência.
-        other_motifs (list): Lista de motifs já encontrados nas outras sequências.
+        L (int): Comprimento do motif.
+        inicio (int): Posição inicial do motif candidato na sequência.
+        outros_motifs (list): Lista de motifs já encontrados nas outras sequências.
     
     Return:
         float: Probabilidade calculada do motif
     """
-    motif = seq[start:start + motif_len]
-    score = 1.0
-    total = len(other_motifs) + 4  # Laplace smoothing
+    motif = seq[inicio:inicio + L]
+    probabilidade = 1.0
+    total = len(outros_motifs) + 4  # Laplace smoothing
     for i, base in enumerate(motif):
         counts = {n: 1 for n in "ACGT"}  # Inicializa com 1 para Laplace
-        for m in other_motifs:
+        for m in outros_motifs:
             counts[m[i].upper()] = counts.get(m[i].upper(), 1) + 1
-        score *= counts[base.upper()] / total
-    return score
+        probabilidade *= counts[base.upper()] / total
+    return probabilidade
 
-def gibbs_sampling_motif_search(seqs, L, num_iterations=1000):
+def gibbs_sampling(seqs, L, num_it=1000):
     """
     Realiza busca de motifs usando o algoritmo de Gibbs Sampling.
 
@@ -53,23 +53,23 @@ def gibbs_sampling_motif_search(seqs, L, num_iterations=1000):
     Parâmetros:
         seqs (list): Sequências de DNA para encontrar motifs
         L (int): Comprimento dos motifs
-        num_iterations (int, opcional): Número de iterações. Padrão é 1000
+        num_it (int, opcional): Número de iterações. Padrão é 1000
     
     Return:
         tuple: Tupla contendo posições dos motifs e melhor pontuação
     """
-    motif_positions = [random.randint(0, len(seq) - L) for seq in seqs]
-    best_score = score(motif_positions)
-    for _ in range(num_iterations):
+    posições_motif = [random.randint(0, len(seq) - L) for seq in seqs]
+    melhor_score = score(posições_motif)
+    for _ in range(num_it):
         for i in range(len(seqs)):
-            excluded_sequence = seqs[i]
-            other_motifs = [seqs[j][motif_positions[j]:motif_positions[j] + L] for j in range(len(seqs)) if j != i]           
-            probabilities = [calculate_probability(excluded_sequence, L, pos, other_motifs) for pos in range(len(excluded_sequence) - L + 1)]           
-            total_prob = sum(probabilities)
-            probabilities = [p / total_prob for p in probabilities]            
-            motif_positions[i] = random.choices(range(len(probabilities)), weights=probabilities)[0]      
-        current_score = score(motif_positions)
+            sequencia_excluida = seqs[i]
+            outros_motifs = [seqs[j][posições_motif[j]:posições_motif[j] + L] for j in range(len(seqs)) if j != i]           
+            probabilidades = [calcular_probabilidade(sequencia_excluida, L, pos, outros_motifs) for pos in range(len(sequencia_excluida) - L + 1)]           
+            prob_total = sum(probabilidades)
+            probabilidades = [p / prob_total for p in probabilidades]            
+            posições_motif[i] = random.choices(range(len(probabilidades)), weights=probabilidades)[0]      
+        score_atual = score(posições_motif)
         
-        if current_score > best_score:
-            best_score = current_score
-    return motif_positions, best_score
+        if score_atual > melhor_score:
+            melhor_score = score_atual
+    return posições_motif, melhor_score
