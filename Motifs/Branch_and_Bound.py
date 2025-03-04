@@ -1,39 +1,59 @@
 def procura_exaustiva_motifs(seqs, L):
     """
-    Searches for the best motifs of length L in the given sequences by exhaustively trying all possible positions, 
-    selecting the combination with the highest conservation score.
+    Procura os melhores motifs de um determinado comprimento nas sequências fornecidas,
+    ao testar exaustivamente todas as posições possíveis e selecionar a combinação
+    com a maior pontuação.
 
-    Args:
-        seqs (list): List of biological sequences (strings).
-        L (int): Length of the motif to find.
+    Parâmetros:
+        seqs (list): Lista das sequências biológicas (strings)
+        L (int): Comprimento do motif a procurar
 
-    Returns:
-        A tuple containing:
-            - best_s (list): List of start positions for the best motifs in each sequence.
-            - best_score (int): The score of the best motif set.
+    Return:
+        Um tuplo com:
+            - melhor_p (list): Posições iniciais dos melhores motifs em cada sequência
+            - melhor_score (int): Pontuação do melhor conjunto de motifs
     """
-    best_score, best_s = 0, None
+    melhor_score, melhor_p = 0, None
     tam_seq = len(seqs[0])
     limite = tam_seq - L + 1 
 
-    def score(s):
-        motifs = [seq[p:p+L] for seq, p in zip(seqs, s)]
+    def score(pos):
+        """
+        Calcula a pontuação de conservação para um conjunto de motivos nas posições especificadas
+        
+        Parâmetros:
+           pos (list): Lista de posições iniciais em cada sequência
+            
+        Return:
+           int: Pontuação total de conservação das colunas dos motifs
+        """
+        motifs = [seq[p:p+L] for seq, p in zip(seqs, pos)]
         return sum(max(col.count(b) for b in set(col)) for col in zip(*motifs))
  
-    def busca(i, s):
-        nonlocal best_score, best_s
+    def procura(i, pos_at):
+        """
+        Função recursiva que realiza a procura por todas as combinações possíveis
+        de posições iniciais nas sequências
+
+        Parâmetros:
+            i (int): Índice da sequência atual que está a ser processada
+            pos_at (list): Lista de posições iniciais já escolhidas para as sequências anteriores
+            
+        Return:
+            A função não retorna valores, atualiza as variáveis melhor_score e melhor_p
+        """
+        nonlocal melhor_score, melhor_p
         if i == len(seqs):
-            sc = score(s)
-            if sc > best_score:
-                best_score, best_s = sc, s
+            sc = score(pos_at)
+            if sc > melhor_score:
+                melhor_score, melhor_p = sc, pos_at
             return
         for p in range(limite):
-            busca(i + 1, s + [p]) 
-    busca(0, [])
-    return best_s, best_score
-
+            procura(i + 1, pos_at + [p]) 
+    procura(0, [])
+    return melhor_p, melhor_score
 
 seqs = "ATGGTCGC TTGTCTGA CCGTAGTA".split()
 L = 3                                      
 melhor, score_final = procura_exaustiva_motifs(seqs, L)
-print("Melhores posições:", melhor, "score:", score_final)
+print("Posições:", melhor, "Score:", score_final)
