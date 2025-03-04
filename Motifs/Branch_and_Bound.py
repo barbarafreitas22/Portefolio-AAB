@@ -13,7 +13,7 @@ def procura_exaustiva_motifs(seqs, L):
             - melhor_p (list): Posições iniciais dos melhores motifs em cada sequência
             - melhor_score (int): Pontuação do melhor conjunto de motifs
     """
-    melhor_score, melhor_p = 0, None  # Inicializa a melhor pontuação e as melhores posições
+    melhor_score, melhor_p = 0, None  # Inicia a melhor pontuação e as melhores posições
     tam_seq = len(seqs[0])  # Obtém o tamanho das sequências (assume-se que têm o mesmo tamanho)
     limite = tam_seq - L + 1  # Calcula o número de posições possíveis para um motif de comprimento L
 
@@ -56,6 +56,6 @@ def procura_exaustiva_motifs(seqs, L):
 
 
 seqs = "ATGGTCGC TTGTCTGA CCGTAGTA".split()  
-L = 3                                         
+L = 3                                     
 melhor, score_final = procura_exaustiva_motifs(seqs, L)
-print("Posições:", melhor, "Score:", score_final)  
+print("Posições:", melhor, "Score:", score_final) 
