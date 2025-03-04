@@ -20,8 +20,8 @@ def score_motifs(seqs, pos, L):
 def consensus_heu(seqs, L):
     """
     Algoritmo heurístico que encontra, de forma greedy, as melhores posições iniciais dos motifs:
-      1. Para as duas primeiras sequências, testa todas as combinações possíveis.
-      2. Para cada sequência subsequente, escolhe a posição que maximiza o score dos motifs já formados.
+      - Para as duas primeiras sequências, testa todas as combinações possíveis.
+      - Para cada sequência subsequente, escolhe a posição que maximiza o score dos motifs já formados.
 
     Parâmetros:
         seqs (list of str): Lista de sequências de DNA
