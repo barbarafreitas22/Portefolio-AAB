@@ -13,8 +13,8 @@ def motif_score(seqs, posicoes, L):
     Return:
         int: O score
     """
-    motifs = [seq[p:p+L] for seq, p in zip(seqs, posicoes)]
-    return sum(max(col.count(base) for base in set(col)) for col in zip(*motifs))
+     motifs = [seq[p:p+L] for seq, p in zip(seqs, posicoes)]
+     return sum(max(col.count(base) for base in set(col)) for col in zip(*motifs))
 
 def random_dna_seq(n):
     """
