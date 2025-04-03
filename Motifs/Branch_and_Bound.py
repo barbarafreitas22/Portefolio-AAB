@@ -54,8 +54,8 @@ def procura_exaustiva_motifs(seqs, L):
     procura(0, [])  # Inicia a procura recursiva
     return melhor_p, melhor_score  # Retorna as melhores posições e a pontuação correspondente
 
-
-seqs = "ATGGTCGC TTGTCTGA CCGTAGTA".split()  
-L = 3                                     
-melhor, score_final = procura_exaustiva_motifs(seqs, L)
-print("Posições:", melhor, "Score:", score_final) 
+if __name__ == '__main__':
+    seqs = "ATGGTCGC TTGTCTGA CCGTAGTA".split()  
+    L = 3                                     
+    melhor, score_final = procura_exaustiva_motifs(seqs, L)
+    print("Posições:", melhor, "Score:", score_final) 
