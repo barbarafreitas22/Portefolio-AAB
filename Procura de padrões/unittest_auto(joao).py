@@ -1,88 +1,91 @@
-class TestFiniteAutomaton(unittest.TestCase):
+import unittest
+from Autómatos Finitos import Automato_finito
+
+class TestAutomatoFinito(unittest.TestCase):
     def setUp(self):
         """
-        Set up a finite automaton for testing.
+        Configura um autómato finito para os testes.
         """
-        self.alphabet = "AC"
-        self.pattern = "ACA"
-        self.automaton = FiniteAutomaton(self.alphabet, self.pattern)
+        self.alfabeto = "AC"  
+        self.padrao = "ACA"  
+        self.automato = Automato_finito(self.alfabeto, self.padrao)  
 
-    def test_transition_table(self):
+    def test_tabela_transicao(self):
         """
-        Test if the transition table is built correctly.
+        Testa se a tabela de transições é construída corretamente.
         """
-        expected_transitions = {
+        transicoes_esperadas = {
             (0, 'A'): 1, (0, 'C'): 0,
             (1, 'A'): 1, (1, 'C'): 2,
             (2, 'A'): 3, (2, 'C'): 0,
             (3, 'A'): 1, (3, 'C'): 2
         }
-        self.assertEqual(self.automaton.transition_table, expected_transitions)
+        self.assertEqual(self.automato.tabela_transicao, transicoes_esperadas)
 
-    def test_overlap_function(self):
+    def test_funcao_sobreposicao(self):
         """
-        Test the _overlap function for various cases.
+        Testa a função _sobreposicao para vários casos.
         """
-        self.assertEqual(self.automaton._overlap("A"), 1)
-        self.assertEqual(self.automaton._overlap("AC"), 2)
-        self.assertEqual(self.automaton._overlap("ACA"), 3)
-        self.assertEqual(self.automaton._overlap("C"), 0)
-        self.assertEqual(self.automaton._overlap("G"), 0)
+        self.assertEqual(self.automato._sobreposicao("A"), 1)
+        self.assertEqual(self.automato._sobreposicao("AC"), 2)
+        self.assertEqual(self.automato._sobreposicao("ACA"), 3)
+        self.assertEqual(self.automato._sobreposicao("C"), 0)
+        self.assertEqual(self.automato._sobreposicao("G"), 0)
 
-    def test_apply_sequence(self):
+    def test_aplicar_sequencia(self):
         """
-        Test the application of the automaton to a sequence.
+        Testa a aplicação do autómato a uma sequência.
         """
-        sequence = "CACAACAA"
-        expected_states = [0, 0, 1, 2, 3, 1, 2, 3, 1]
-        self.assertEqual(self.automaton.apply_sequence(sequence), expected_states)
+        sequencia = "CACAACAA"
+        estados_esperados = [0, 0, 1, 2, 3, 1, 2, 3, 1]
+        self.assertEqual(self.automato.aplicar_sequencia(sequencia), estados_esperados)
 
-    def test_find_pattern_occurrences(self):
+    def test_encontrar_ocorrencias_padrao(self):
         """
-        Test finding pattern occurrences in a sequence.
+        Testa a identificação de ocorrências do padrão numa sequência.
         """
-        sequence = "CACAACAA"
-        expected_occurrences = [1, 4]
-        self.assertEqual(self.automaton.find_pattern_occurrences(sequence), expected_occurrences)
+        sequencia = "CACAACAA"
+        ocorrencias_esperadas = [1, 4]
+        self.assertEqual(self.automato.encontrar_ocorrencias_padrao(sequencia), ocorrencias_esperadas)
 
-    def test_no_occurrences(self):
+    def test_sem_ocorrencias(self):
         """
-        Test when the pattern does not occur in the sequence.
+        Testa quando o padrão não ocorre na sequência.
         """
-        sequence = "CCCCCCCC"
-        self.assertEqual(self.automaton.find_pattern_occurrences(sequence), [])
+        sequencia = "CCCCCCCC"
+        self.assertEqual(self.automato.encontrar_ocorrencias_padrao(sequencia), [])
 
-    def test_empty_sequence(self):
+    def test_sequencia_vazia(self):
         """
-        Test with an empty sequence.
+        Testa com uma sequência vazia.
         """
-        sequence = ""
-        self.assertEqual(self.automaton.apply_sequence(sequence), [0])
-        self.assertEqual(self.automaton.find_pattern_occurrences(sequence), [])
+        sequencia = ""
+        self.assertEqual(self.automato.aplicar_sequencia(sequencia), [0])
+        self.assertEqual(self.automato.encontrar_ocorrencias_padrao(sequencia), [])
 
-    def test_empty_pattern(self):
+    def test_padrao_vazio(self):
         """
-        Test with an empty pattern.
+        Testa com um padrão vazio.
         """
-        automaton = FiniteAutomaton(self.alphabet, "")
-        sequence = "CACAACAA"
-        self.assertEqual(automaton.find_pattern_occurrences(sequence), list(range(len(sequence) + 1)))
+        automato = Automato_finito(self.alfabeto, "")
+        sequencia = "CACAACAA"
+        self.assertEqual(automato.encontrar_ocorrencias_padrao(sequencia), list(range(len(sequencia) + 1)))
 
-    def test_non_alphabet_characters(self):
+    def test_caracteres_fora_do_alfabeto(self):
         """
-        Test with characters outside the defined alphabet.
+        Testa com caracteres fora do alfabeto definido.
         """
-        sequence = "CACAACAA123"
-        expected_states = [0, 0, 1, 2, 3, 1, 2, 3, 1, 0, 0, 0]
-        self.assertEqual(self.automaton.apply_sequence(sequence), expected_states)
-        self.assertEqual(self.automaton.find_pattern_occurrences(sequence), [1, 4])
+        sequencia = "CACAACAA123"
+        estados_esperados = [0, 0, 1, 2, 3, 1, 2, 3, 1, 0, 0, 0]
+        self.assertEqual(self.automato.aplicar_sequencia(sequencia), estados_esperados)
+        self.assertEqual(self.automato.encontrar_ocorrencias_padrao(sequencia), [1, 4])
 
-    def test_case_sensitivity(self):
+    def test_sensibilidade_a_maiusculas_minusculas(self):
         """
-        Test case sensitivity of the automaton.
+        Testa a sensibilidade a maiúsculas e minúsculas do autómato.
         """
-        sequence = "cacaacaa"
-        self.assertEqual(self.automaton.find_pattern_occurrences(sequence), [])
+        sequencia = "cacaacaa"
+        self.assertEqual(self.automato.encontrar_ocorrencias_padrao(sequencia), [])
 
 
 if __name__ == "__main__":
