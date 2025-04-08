@@ -12,7 +12,7 @@ class BoyerMoore:
         self.pattern = pattern
         self.preprocess()  # Sempre que damos alphabet e pattern, corre esta função
 
-    def preprocess(self):
+    def preprocessar(self):
         """
         Realiza o pré-processamento utilizando as duas regras de Boyer-Moore:
         1. Bad Character Rule (BCR)
@@ -21,7 +21,7 @@ class BoyerMoore:
         self.process_bcr()
         self.process_gsr()
 
-    def process_bcr(self):
+    def processar_bcr(self):
         """
         Implementação do pré-processamento da regra do bad character (BCR).
         A função calcula a última ocorrência de cada caractere do alfabeto no padrão
@@ -34,7 +34,7 @@ class BoyerMoore:
             self.occ[self.pattern[i]] = i  # A última ocorrência de cada caractere no padrão
         print(self.occ)
 
-    def process_gsr(self):
+    def processar_gsr(self):
         """
         Implementação do pré-processamento da regra do good suffix (GSR).
         A função calcula o deslocamento máximo para avançar no padrão sem comprometer a busca.
@@ -66,7 +66,7 @@ class BoyerMoore:
         print(self.f)
         print(self.s)
 
-    def search_pattern(self, text):
+    def procurar_padrao(self, text):
         """
         Realiza a busca do padrão no texto utilizando o algoritmo Boyer-Moore.
         """
@@ -85,7 +85,7 @@ class BoyerMoore:
         return res
 
 
-def test():
+def testar():
     """
     Função de teste para verificar a implementação do algoritmo Boyer-Moore.
     """
