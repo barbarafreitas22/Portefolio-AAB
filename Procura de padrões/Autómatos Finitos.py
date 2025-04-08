@@ -1,4 +1,4 @@
-class FiniteAutomaton:
+class Automato_finito:
     """
     Implementação de um autómato finito para busca de padrões.
 
@@ -6,7 +6,7 @@ class FiniteAutomaton:
     A tabela de transições é construída com base no padrão, o que permite identificar os estados percorridos e as ocorrências do padrão.
     """
 
-    def __init__(self, alphabet, pattern):
+    def __init__(self, alfabeto, padrao):
         """
         Inicializa o autómato finito com o alfabeto e o padrão a serem procurados.
 
@@ -14,25 +14,25 @@ class FiniteAutomaton:
             alphabet (str): O alfabeto utilizado tanto no padrão quanto nas sequências.
             pattern (str): O padrão que se deseja encontrar nas sequências.
         """
-        self.alphabet = alphabet
-        self.pattern = pattern
-        self.num_states = len(pattern) + 1
-        self.transition_table = {}
-        self._build_transition_table()
+        self.alfabeto = alfabeto
+        self.padrao = padrao
+        self.num_estados = len(padrao) + 1
+        self.tabela_transicao = {}
+        self._constr_tabela_transicao()
 
-    def _build_transition_table(self):
+    def _constr_tabela_transicao(self):
         """
         Constrói a tabela de transições do autómato com base no padrão definido.
 
         Para cada estado possível e para cada caractere do alfabeto, este método calcula
         a sobreposição entre o prefixo formado pelo estado atual acrescido do caractere e o padrão, ao registar o resultado correspondente na tabela de transições.
         """
-        for state in range(self.num_states):
-            for char in self.alphabet:
-                prefix = self.pattern[:state] + char
-                self.transition_table[(state, char)] = self._overlap(prefix)
+        for estado in range(self.num_estados):
+            for char in self.alfabeto:
+                prefixo = self.padrao[:estado] + char
+                self.tabela_transicao[(estado, char)] = self._sobreposicao(prefixo)
 
-    def _overlap(self, s):
+    def _sobreposicao(self, s):
         """
         Calcula o tamanho da sobreposição entre o final da string 's' e o início do padrão.
 
@@ -45,13 +45,13 @@ class FiniteAutomaton:
         Retorna:
             int: O tamanho da sobreposição encontrado.
         """
-        max_overlap = min(len(s), len(self.pattern))
-        for i in range(max_overlap, 0, -1):
-            if s[-i:] == self.pattern[:i]:
+        max_sobreposicao = min(len(s), len(self.padrao))
+        for i in range(max_sobreposicao, 0, -1):
+            if s[-i:] == self.padrao[:i]:
                 return i
         return 0
 
-    def apply_sequence(self, sequence):
+    def aplicar_sequencia(self, sequencia):
         """
         Aplica o autómato a uma sequência e retorna a lista dos estados percorridos.
 
@@ -63,14 +63,14 @@ class FiniteAutomaton:
         Retorna:
             list[int]: Uma lista com os estados visitados durante o processamento da sequência.
         """
-        state = 0
-        states = [state]
-        for char in sequence:
-            state = self.transition_table.get((state, char), 0)
-            states.append(state)
-        return states
+        estado = 0
+        estados = [estado]
+        for char in sequencia:
+            estado = self.tabela_transicao.get((estado, char), 0)
+            estados.append(estado)
+        return estados
 
-    def find_pattern_occurrences(self, sequence):
+    def encontrar_ocorrencias_padrao(self, sequencia):
         """
         Identifica todas as ocorrências do padrão na sequência fornecida.
 
@@ -83,28 +83,29 @@ class FiniteAutomaton:
         Retorna:
             list[int]: Uma lista com as posições iniciais onde o padrão ocorre na sequência.
         """
-        state = 0
-        occurrences = []
-        for i, char in enumerate(sequence):
-            state = self.transition_table.get((state, char), 0)
-            if state == self.num_states - 1:
-                occurrences.append(i - len(self.pattern) + 1)
-        return occurrences
+        estado = 0
+        ocorrencias = []
+        for i, char in enumerate(sequencia):
+            estado = self.tabela_transicao.get((estado, char), 0)
+            if estado == self.num_estados - 1:
+                ocorrencias.append(i - len(self.padrao) + 1)
+        return ocorrencias
 
 
 if __name__ == "__main__":
-    alphabet = "AC"
-    pattern = "ACA"
 
-    automaton = FiniteAutomaton(alphabet, pattern)
+    alfabeto = "AC"
+    padrao = "ACA"
+
+    automato = Automato_finito(alfabeto, padrao)
 
     print("Tabela de Transições:")
-    for key, value in automaton.transition_table.items():
+    for key, value in automato.tabela_transicao.items():
         print(f"Estado {key[0]}, Caractere '{key[1]}' -> Estado {value}")
 
-    sequence = "CACAACAA"
-    states = automaton.apply_sequence(sequence)
-    print("\nEstados percorridos:", states)
+    sequencia = "CACAACAA"
+    estados = automato.aplicar_sequencia(sequencia)
+    print("\nEstados percorridos:", estados)
 
-    occurrences = automaton.find_pattern_occurrences(sequence)
-    print("\nOcorrências do padrão:", occurrences)
+    ocorrencias = automato.encontrar_ocorrencias_padrao(sequencia)
+    print("\nOcorrências do padrão:", ocorrencias)
