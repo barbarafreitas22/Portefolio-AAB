@@ -1,45 +1,64 @@
 class BoyerMoore:
-    
+    """
+    Implementação do algoritmo Boyer-Moore para procura de padrões.
+    O algoritmo utiliza duas regras principais de otimização: a regra do bad character e a regra do good suffix.
+    """
+
     def __init__(self, alphabet, pattern):
+        """
+        Inicializa a classe com o alfabeto e o padrão a ser buscado.
+        """
         self.alphabet = alphabet
         self.pattern = pattern
-        self.preprocess()                #sempre que damos alphabet e pattern corre esta função
+        self.preprocess()  # Sempre que damos alphabet e pattern, corre esta função
 
     def preprocess(self):
+        """
+        Realiza o pré-processamento utilizando as duas regras de Boyer-Moore:
+        1. Bad Character Rule (BCR)
+        2. Good Suffix Rule (GSR)
+        """
         self.process_bcr()
         self.process_gsr()
-        
+
     def process_bcr(self):
-        """Implementação do pre-processamento do bad caracter rule"""
-        self.occ = {}#abre o {}
-        for s in self.alphabet:#add ao {} todos os caracteres do alfabeto e atribui o valor de -1
-            self.occ[s] = -1#atribuição do -1
-        for i in range(len(self.pattern)):#altera o que esta no {}, vai definir como valores do dicionario as pocioes mais à direita onde os simbolos ocorrem
-            self.occ[self.pattern[i]] = i#altera no {} o valor da letras do alphabet para i que é a
-            #ou
-            # c = self.pattern
-            #self.occ[c] = i
+        """
+        Implementação do pré-processamento da regra do bad character (BCR).
+        A função calcula a última ocorrência de cada caractere do alfabeto no padrão
+        e armazena essas informações em um dicionário (self.occ).
+        """
+        self.occ = {}  # Dicionário que mapeia caracteres para suas últimas ocorrências no padrão
+        for s in self.alphabet:
+            self.occ[s] = -1  # Inicializa todas as ocorrências com -1 (não encontrado)
+        for i in range(len(self.pattern)):
+            self.occ[self.pattern[i]] = i  # A última ocorrência de cada caractere no padrão
         print(self.occ)
 
     def process_gsr(self):
-        """Implementação do pre-processamento do good suffix rule"""
-        self.f = [0] * (len(self.pattern) + 1) #abre uma lista com 0 com o tamanho do padrão MISMATCH
-        self.s = [0] * (len(self.pattern) + 1) #MATCH
-        i = len(self.pattern) #tamanho do padrão
-        j = len(self.pattern) + 1#define o i e j pelo comprimento do padrão
-        self.f[i] = j#aletra o valor do ultimo elemento da lista self.f para j, vai seo o ultimo elemento do padrão
+        """
+        Implementação do pré-processamento da regra do good suffix (GSR).
+        A função calcula o deslocamento máximo para avançar no padrão sem comprometer a busca.
+        São criadas duas listas:
+        Define o maior sufixo possível para um prefixo do padrão.
+        Define o número de posições que podem ser avançadas no texto.
+        """
+        self.f = [0] * (len(self.pattern) + 1)  # Lista de índices para a regra do good suffix
+        self.s = [0] * (len(self.pattern) + 1)  # Lista de deslocamentos para a regra do good suffix
+        i = len(self.pattern)             # Começa do final do padrão
+        j = len(self.pattern) + 1        # J é sempre maior que o tamanho do padrão
+        self.f[i] = j  # A última posição da lista f recebe o valor de j
         print(self.f)
-        while i > 0:#enquanto que a posição no padrão > 0, da direita para a esquerda
-            while j <= len(self.pattern) and self.pattern[i - 1] != self.pattern[j - 1]: #enquanto que o j for menor que o i
-                #define a lista s que é o nº de casas que pode avançar na seq caso o padrão não encaixe
-                if self.s[j] == 0:# se a a posição j == 0, é a última pos
-                    self.s[j] = j - i #a posição j vao tomar o valor de j - i
-                j = self.f[j] #j = à posição self.f[j]
+        
+        while i > 0:  # Percorre o padrão da direita para a esquerda
+            while j <= len(self.pattern) and self.pattern[i - 1] != self.pattern[j - 1]:  # Busca onde ocorre a falha
+                if self.s[j] == 0:  # Se a posição j não foi definida ainda
+                    self.s[j] = j - i  # Calcula a distância do bom sufixo
+                j = self.f[j]  # Atualiza o valor de j baseado na lista f
             i = i - 1
             j = j - 1
-            self.f[i] = j#a lista f na posição i vao tomar o valor de j
-        j = self.f[0] # j = ao caracter na psoiçao 0 da lista f
-        for i in range(0, len(self.pattern)):#quando i está como 0, vai alterar para o valor de j mais recente, que significa passar o nº possível de posições à frente ca cadeia sem comprometer a procura no padrao
+            self.f[i] = j  # Atualiza a lista f para o valor de j
+        j = self.f[0]  # j recebe o valor do primeiro elemento da lista f
+        for i in range(0, len(self.pattern)):  # Finaliza o cálculo dos deslocamentos
             if self.s[i] == 0:
                 self.s[i] = j
             if i == j:
@@ -48,24 +67,28 @@ class BoyerMoore:
         print(self.s)
 
     def search_pattern(self, text):
-        res = []
-        i = 0 #posição i na sequencia, POSIÇAO NO TEXTO
-        while i <= (len(text) - len(self.pattern)):#para começar a correr a seq
-            j = (len(self.pattern) - 1) #posicao no padrao vai ser = ao tamanho do padrão -1
-            while j >= 0 and self.pattern[j] == text[j + i]: #continuar a correr enquanto esta a dar match
+        """
+        Realiza a busca do padrão no texto utilizando o algoritmo Boyer-Moore.
+        """
+        res = [] 
+        i = 0
+        while i <= (len(text) - len(self.pattern)):  # Enquanto for possível realizar uma comparação
+            j = (len(self.pattern) - 1)  # Inicia a comparação no final do padrão
+            while j >= 0 and self.pattern[j] == text[j + i]:  
                 j -= 1
             if j < 0:
-                res.append(i) #ocorreu um padrão inteiro
-                i = i +self.s[0] #avança para i "casas" para a frente uma vez que o padrao já foi encontrado uma vez
+                res.append(i)  # Padrão encontrado, armazena a posição i
+                i = i + self.s[0]  # Avança de acordo com a regra do good suffix
             else:
                 c = text[i + j]
-                i += max(self.s[j + 1], j - self.occ[c]) #o +1 no j+1 é por causa da casa vazia no inicio do bcr
-                #avança dependendo
+                i += max(self.s[j + 1], j - self.occ[c])  # Avança conforme a regra do bad character
         return res
 
 
-
 def test():
+    """
+    Função de teste para verificar a implementação do algoritmo Boyer-Moore.
+    """
     bm = BoyerMoore("ACTG", "ACCA")
     print(bm.search_pattern("ATAGAACCAATGAACCATGATGAACCATGGATACCCAACCACC"))
 
@@ -73,5 +96,3 @@ def test():
 if __name__ == "__main__":
     test()
 
-
-#result: [5, 13, 23, 37]
