@@ -4,14 +4,14 @@ class TestTrie(unittest.TestCase):
     """
     Testes unitários para a estrutura Trie.
 
-    Estes testes verificam a correcta inserção de palavras, a pesquisa de palavras completas,
-    a pesquisa por prefixos e o comportamento da Trie em casos de inserções duplicadas ou Trie vazia.
+    Estes testes verificam a correcta adição de palavras, a pesquisa de palavras completas,
+    a pesquisa por prefixos e o comportamento da Trie em casos de adições duplicadas ou Trie vazia.
     """
 
     def setUp(self):
         """
-        Configura o ambiente de testes inicializando uma Trie
-        e inserindo uma lista de palavras para os testes.
+        Configura o ambiente de testes ao iniciar uma Trie
+        e insere uma lista de palavras para os testes.
         """
         self.trie = Trie()
         self.words = ["apple", "app", "banana", "band", "bandana"]
@@ -46,7 +46,7 @@ class TestTrie(unittest.TestCase):
         """
         Testa o comportamento da Trie vazia.
 
-        Verifica se a pesquisa em uma Trie vazia retorna resultados apropriados.
+        Verifica se a pesquisa numa Trie vazia retorna resultados apropriados.
         """
         empty_trie = Trie()
         self.assertFalse(empty_trie.search("anything"))
@@ -68,14 +68,14 @@ class TestSuffixTree(unittest.TestCase):
     """
     Testes unitários para a estrutura Árvore de Sufixos (Suffix Tree).
 
-    Estes testes verificam a correcta inserção dos sufixos de uma string,
+    Estes testes verificam a correcta adição dos sufixos de uma string,
     a pesquisa de substrings, e o comportamento em casos especiais como
     strings vazias ou caracteres especiais.
     """
 
     def setUp(self):
         """
-        Configura o ambiente de testes inicializando uma Árvore de Sufixos
+        Configura o ambiente de testes ao iniciar uma Árvore de Sufixos
         com o texto "banana" para utilização nos testes.
         """
         self.suffix_tree = SuffixTree()
@@ -84,7 +84,7 @@ class TestSuffixTree(unittest.TestCase):
 
     def test_insert_and_search(self):
         """
-        Testa a inserção e pesquisa de substrings na Árvore de Sufixos.
+        Testa a adição e pesquisa de substrings na Árvore de Sufixos.
 
         Verifica se substrings corretas são encontradas nas posições apropriadas.
         """
@@ -112,7 +112,7 @@ class TestSuffixTree(unittest.TestCase):
         """
         Testa a inserção de uma string vazia.
 
-        Garante que a inserção de uma string vazia é tratada corretamente
+        Garante que a adição de uma string vazia é tratada corretamente
         e não gera erro na pesquisa.
         """
         empty_suffix_tree = SuffixTree()
@@ -121,7 +121,7 @@ class TestSuffixTree(unittest.TestCase):
 
     def test_insert_and_search_single_character(self):
         """
-        Testa a inserção e pesquisa de uma única letra.
+        Testa a adição e pesquisa de uma única letra.
 
         Verifica se uma letra inserida isoladamente pode ser corretamente encontrada.
         """
@@ -158,7 +158,7 @@ class TestSuffixTree(unittest.TestCase):
         """
         Testa a inserção e pesquisa de caracteres Unicode.
 
-        Verifica se palavras contendo caracteres acentuados são corretamente armazenadas e pesquisadas.
+        Verifica se palavras que contêm caracteres acentuados são corretamente armazenadas e pesquisadas.
         """
         unicode_tree = SuffixTree()
         unicode_tree.insert("café")
