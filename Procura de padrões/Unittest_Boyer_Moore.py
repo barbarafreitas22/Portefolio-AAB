@@ -1,6 +1,5 @@
 import unittest
-from BoyerMoore import BoyerMoore  # Certifique-se de que a classe BoyerMoore está no mesmo diretório ou no PYTHONPATH
-
+from BoyerMoore import BoyerMoore
 class TesteBoyerMoore(unittest.TestCase):
 
     def test_uma_ocorrencia(self):
