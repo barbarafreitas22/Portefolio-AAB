@@ -1,6 +1,6 @@
 import unittest
 
-from BoyerMoore import 
+from BoyerMoore import BoyerMoore
 
 class TesteBoyerMoore(unittest.TestCase):
 
