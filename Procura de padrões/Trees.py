@@ -8,15 +8,15 @@ class Trie:
 
     def __init__(self):
         """
-        Inicializa a Trie como um dicionário vazio, onde cada chave representa um caractere e cada valor representa a continuação da palavra.
+        Inicia a Trie como um dicionário vazio, onde cada chave representa um caractere e cada valor representa a continuação da palavra.
         """
         self.trie = {}
 
     def insert(self, word):
         """
-        Insere uma palavra na Trie, adicionando um marcador especial ('$') no final para indicar o término da palavra.
+        Insere uma palavra na Trie, ao adicionar um marcador especial ('$') no final para indicar o fim da palavra.
 
-        Parâmetros:
+        Parametros:
             word (str): A palavra a ser inserida na Trie.
         """
         current = self.trie
@@ -31,7 +31,7 @@ class Trie:
 
         A pesquisa percorre a estrutura da Trie caractere a caractere e verifica no final se existe o marcador especial de fim ('$').
 
-        Parâmetros:
+        Parametros:
             word (str): A palavra a procurar na Trie.
 
         Retorna:
@@ -50,7 +50,7 @@ class Trie:
 
         Após localizar o prefixo na Trie, percorre recursivamente todos os caminhos possíveis para recolher as palavras completas.
 
-        Parâmetros:
+        Parametros:
             prefix (str): Prefixo a procurar na Trie.
 
         Retorna:
@@ -69,7 +69,7 @@ class Trie:
 
         Esta função é chamada recursivamente até encontrar todos os caminhos terminados com o marcador especial de fim ('$').
 
-        Parâmetros:
+        Parametros:
             prefix (str): Prefixo acumulado até ao nó atual.
             node (dict): Subárvore da Trie correspondente ao prefixo.
 
@@ -101,12 +101,12 @@ class SuffixTree:
 
     def insert(self, text):
         """
-        Insere todos os sufixos da string fornecida na Árvore de Sufixos.
+        Adiciona todos os sufixos da string fornecida na Árvore de Sufixos.
 
-        Para cada sufixo, cria-se um caminho separado na árvore, marcando o fim com o símbolo especial ('$') e registando a posição inicial do sufixo.
+        Para cada sufixo, cria-se um caminho separado na árvore, que marca o fim com o símbolo especial ('$') e regista a posição inicial do sufixo.
 
-        Parâmetros:
-            text (str): Texto base de onde serão gerados e inseridos os sufixos.
+        Parametros:
+            text (str): Texto base de onde serão criados e adicionados os sufixos.
         """
         if text == "":
             current = self.tree
@@ -126,7 +126,7 @@ class SuffixTree:
 
         Cada caractere do sufixo é adicionado sequencialmente, e ao final regista-se a posição inicial do sufixo.
 
-        Parâmetros:
+        Parametros:
             suffix (str): Sufixo a ser inserido.
             index (int): Posição inicial do sufixo na string original.
         """
