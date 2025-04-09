@@ -1,5 +1,7 @@
 import unittest
 
+from BoyerMoore import 
+
 class TesteBoyerMoore(unittest.TestCase):
 
     def test_uma_ocorrencia(self):
