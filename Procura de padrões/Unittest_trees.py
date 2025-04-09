@@ -1,3 +1,4 @@
+from Trees import Trie, SuffixTree
 import unittest
 
 class TestTrie(unittest.TestCase):
