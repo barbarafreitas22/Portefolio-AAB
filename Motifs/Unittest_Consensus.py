@@ -1,5 +1,6 @@
 import unittest
 import random
+from Consensus import *
 
 class TestMotifFinding(unittest.TestCase):
     
