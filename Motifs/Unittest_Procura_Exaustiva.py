@@ -1,4 +1,5 @@
 import unittest
+from Procura_Exaustiva import *
 
 class TestMotifFinding(unittest.TestCase):
 
