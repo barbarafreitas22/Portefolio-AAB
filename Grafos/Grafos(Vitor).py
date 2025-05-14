@@ -168,12 +168,12 @@ def test_graph():
     }
     wg = MyGraph(g)
     wg.print_graph()
-    print("Nodes:", wg.get_nodes())
-    print("Edges:", wg.get_edges())
-    print("Shortest path 1->4:", wg.shortest_path(1, 4))
-    print("Distance 1->4:", wg.distance(1, 4))
-    print("Shortest path 2->4:", wg.shortest_path(2, 4))
-    print("Distance 2->4:", wg.distance(2, 4))
+    print("Nós:", wg.get_nodes())
+    print("Ligações:", wg.get_edges())
+    print("Caminho mais curto 1->4:", wg.shortest_path(1, 4))
+    print("Distância 1->4:", wg.distance(1, 4))
+    print("Caminho mais curto 2->4:", wg.shortest_path(2, 4))
+    print("Distância 2->4:", wg.distance(2, 4))
 
 if __name__ == "__main__":
     test_graph()
