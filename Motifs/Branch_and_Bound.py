@@ -1,3 +1,32 @@
+import random
+
+def motif_score(seqs, posicoes, L):
+     """
+    Calcula o score dos motifs extraídos de seqs através das posições 
+
+    Parâmetros:
+        seqs (list of str): Lista de sequências de DNA
+        posicoes (list of int): Lista de posições iniciais para extrair os motifs
+        L (int): Tamanho do motif
+
+    Return:
+        int: O score
+    """
+     motifs = [seq[p:p+L] for seq, p in zip(seqs, posicoes)]
+     return sum(max(col.count(base) for base in set(col)) for col in zip(*motifs))
+
+def random_dna_seq(n):
+    """
+    Gera uma sequência aleatória de DNA com comprimento n
+
+    Parâmetros:
+        n (int): Comprimento da sequência a gerar
+
+    Retorna:
+        str: Uma sequência aleatória composta pelas letras A, C, G e T
+    """
+    return ''.join(random.choice("ACGT") for _ in range(n))
+
 def procura_exaustiva_motifs(seqs, L):
     """
     Procura os melhores motifs de um determinado comprimento nas sequências fornecidas,
