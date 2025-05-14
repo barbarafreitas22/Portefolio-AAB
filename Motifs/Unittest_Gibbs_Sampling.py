@@ -1,4 +1,5 @@
 import unittest
+from Gibbs_Sampling import *
 
 class TestMotifSearch(unittest.TestCase):
 
