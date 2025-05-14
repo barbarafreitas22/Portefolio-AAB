@@ -186,23 +186,23 @@ class SuffixTree:
 # Exemplo
 if __name__ == "__main__":
     # Exemplo de Trie
-    print("=== Trie Example ===")
+    print("=== Exemplo de trie ===")
     trie = Trie()
     words = ["apple", "app", "banana", "band", "bandana"]
     for word in words:
         trie.insert(word)
 
-    print("Search 'app':", trie.search("app"))  # Verdadeiro
-    print("Search 'apple':", trie.search("apple"))  # Verdadeiro
-    print("Search 'apples':", trie.search("apples"))  # Falso
-    print("Words starting with 'ban':", trie.starts_with("ban"))  # ['banana', 'band', 'bandana']
+    print("Procura 'app':", trie.search("app"))  # Verdadeiro
+    print("Procura 'apple':", trie.search("apple"))  # Verdadeiro
+    print("Procura 'apples':", trie.search("apples"))  # Falso
+    print("Palavras começadas por 'ban':", trie.starts_with("ban"))  # ['banana', 'band', 'bandana']
 
     # Exemplo Suffix Tree
-    print("\n=== Suffix Tree Example ===")
+    print("\n=== Exemplo de suffix tree ===")
     suffix_tree = SuffixTree()
     text = "banana"
     suffix_tree.insert(text)
 
-    print("Search 'ana':", suffix_tree.search("ana"))  # [1, 3]
-    print("Search 'ban':", suffix_tree.search("ban"))  # [0]
-    print("Search 'xyz':", suffix_tree.search("xyz"))  # []
+    print("Procura 'ana':", suffix_tree.search("ana"))  # [1, 3]
+    print("Procura 'ban':", suffix_tree.search("ban"))  # [0]
+    print("Procura 'xyz':", suffix_tree.search("xyz"))  # []
