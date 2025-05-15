@@ -1,5 +1,5 @@
 
-from Grafos import MyGraph
+from Graphs import MyGraph
 
 class MetabolicNetwork(MyGraph):
     def __init__(self, network_type="metabolite-reaction", split_rev=False):
