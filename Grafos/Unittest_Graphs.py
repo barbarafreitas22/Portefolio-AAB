@@ -46,7 +46,7 @@ class TestMyGraph(unittest.TestCase):
 
     def test_cycles(self):
         self.assertFalse(self.g.has_cycle())
-        self.g.add_edge(4, 1, 1)  # Cria ciclo
+        self.g.add_edge(4, 1, 1)  
         self.assertTrue(self.g.has_cycle())
 
     def test_empty_graph(self):
