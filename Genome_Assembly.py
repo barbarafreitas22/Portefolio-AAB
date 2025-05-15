@@ -8,7 +8,7 @@ def get_suffix(seq):
     """Return the suffix (all but first character) of a sequence."""
     return seq[1:]
 
-class DeBruijnGraph(Graph):
+class DeBruijnGraph(MyGraph):
     """
     De Bruijn graph for genome assembly from k-mers.
     Nodes: (k-1)-mers; Edges: k-mers as transitions.
@@ -70,7 +70,7 @@ class DeBruijnGraph(Graph):
             return None
         return path[0] + ''.join(node[-1] for node in path[1:])
 
-class OverlapGraph(Graph):
+class OverlapGraph(MyGraph):
     """
     Overlap graph for genome assembly from k-mers.
     Nodes: uniquely labeled k-mers; Edges: overlap of k-1 between suffix and prefix.
@@ -147,39 +147,4 @@ def genome_assembly_demo(sequence, k):
     else:
         print("No Hamiltonian path found.")
 
-# Example usage with a longer sequence:
 genome_assembly_demo('GATTACAGATTACAGGATCAGATTACA', 4)
-
-def generate_kmers(seq, k):
-    """Generate all k-mers from a sequence (no sorting, preserves order)."""
-    return [seq[i:i+k] for i in range(len(seq) - k + 1)]
-
-def genome_assembly_all(seq, k):
-    print("Original sequence:", seq)
-    kmers = generate_kmers(seq, k)
-    print("k-mers:", kmers)
-
-    # De Bruijn Graph Assembly
-    print("\n--- De Bruijn Graph Assembly ---")
-    dbg = DeBruijnGraph(kmers)
-    dbg.print_graph()
-    path = dbg.find_eulerian_path()
-    if path:
-        print("Eulerian path found:", path)
-        print("Assembled sequence:", dbg.assemble_sequence(path))
-    else:
-        print("Eulerian path not found.")
-
-    # Overlap Graph Assembly
-    print("\n--- Overlap Graph Assembly ---")
-    og = OverlapGraph(kmers)
-    og.print_graph()
-    path = og.find_hamiltonian_path()
-    if path:
-        print("Hamiltonian path found:", path)
-        print("Assembled sequence:", og.assemble_sequence(path))
-    else:
-        print("Hamiltonian path not found.")
-
-# Example usage with a longer sequence:
-genome_assembly_all('GATTACAGATTACAGGATCAGATTACA', 4)
