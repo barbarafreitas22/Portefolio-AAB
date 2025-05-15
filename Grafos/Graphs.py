@@ -1,5 +1,9 @@
-
 class MyGraph:
+    """
+    Basic directed weighted graph class providing essential methods for 
+    graph manipulation and traversal, including shortest path computation, 
+    reachability, and cycle detection.
+    """
 
     def __init__(self, g = {}):
         self.graph = g
@@ -77,6 +81,9 @@ class MyGraph:
         return path
 
     def _dijkstra(self, source):
+        """
+        Dijkstra's algorithm to compute shortest paths from a source node.
+        """
         unvisited = {node: float('inf') for node in self.graph}
         unvisited[source] = 0
         prev = {}
@@ -99,6 +106,9 @@ class MyGraph:
         return visited, prev
 
     def reachable_bfs(self, v):
+        """
+        Perform BFS to find all reachable nodes from a given node.
+        """
         l = [v]
         res = []
         while l:
@@ -110,6 +120,9 @@ class MyGraph:
         return res
 
     def reachable_dfs(self, v):
+        """
+        Perform DFS to find all reachable nodes from a given node.
+        """
         l = [v]
         res = []
         while l:
@@ -123,6 +136,9 @@ class MyGraph:
         return res
 
     def reachable_with_dist(self, s):
+        """
+        Perform BFS and return reachable nodes with their respective distances.
+        """
         res = []
         l = [(s, 0)]
         while l:
@@ -135,6 +151,9 @@ class MyGraph:
         return res
 
     def node_has_cycle(self, v):
+        """
+        Check if there is a cycle starting and ending at node v.
+        """
         l = [v]
         visited = [v]
         while l:
@@ -148,18 +167,27 @@ class MyGraph:
         return False
 
     def has_cycle(self):
+        """
+        Check if the graph contains any cycle.
+        """
         for v in self.graph:
             if self.node_has_cycle(v):
                 return True
         return False
 
 def is_in_tuple_list(tl, val):
+    """
+    Helper function to check if a value is the first element of any tuple in a list.
+    """
     for x, _ in tl:
         if val == x:
             return True
     return False
 
 def test_graph():
+    """
+    Simple test function for the MyGraph class.
+    """
     g = {
         1: [(2, 3), (3, 1)],
         2: [(3, 7), (4, 5)],
@@ -168,12 +196,12 @@ def test_graph():
     }
     wg = MyGraph(g)
     wg.print_graph()
-    print("Nós:", wg.get_nodes())
-    print("Ligações:", wg.get_edges())
-    print("Caminho mais curto 1->4:", wg.shortest_path(1, 4))
-    print("Distância 1->4:", wg.distance(1, 4))
-    print("Caminho mais curto 2->4:", wg.shortest_path(2, 4))
-    print("Distância 2->4:", wg.distance(2, 4))
+    print("Nodes:", wg.get_nodes())
+    print("Edges:", wg.get_edges())
+    print("Shortest path 1->4:", wg.shortest_path(1, 4))
+    print("Distance 1->4:", wg.distance(1, 4))
+    print("Shortest path 2->4:", wg.shortest_path(2, 4))
+    print("Distance 2->4:", wg.distance(2, 4))
 
 if __name__ == "__main__":
     test_graph()
